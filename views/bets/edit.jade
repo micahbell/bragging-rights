@@ -1,0 +1,8 @@
+extends ../layout
+
+block content
+  h1 Edit Bet
+  
+  form(action='/bets/' + bet._id + '/update' method='post')
+    include ./includes/bet-form
+    button(type='submit') Update Bet

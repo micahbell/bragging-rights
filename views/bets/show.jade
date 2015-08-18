@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+  h1 Showing One
+  
+  if bet
+    h4= bet.name
+    h4= bet.description
+    
+  a(href='/bets/index') Back to All Bets
+    
+  form(action='/bets/' + bet._id + '/edit' method='get')
+    button(type='submit') Edit Bet
+  p
+  form(action='/bets/' + bet._id + '/delete' method='post')
+    button(type='submit') Delete Bet

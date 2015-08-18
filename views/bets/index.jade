@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+  h1 Bets Index Page
+  
+  for bet in bets 
+    a(href='/bets/' + bet._id)
+      h3= bet.name
+  
+  //- a(href='/bets/new')
+  form(action='/bets/new' method='get')
+    button Add New
+  
+  p This page will show all the bets a user is participating in and maybe bets they have been invited to participate in 
