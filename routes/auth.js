@@ -6,11 +6,11 @@ var bets = db.get('bets');
 var val = require('../lib/validations.js');
 var bcrypt = require('bcrypt');
 
-// router.post('/login', function(req, res, next) {
-//   req.session.user = req.body.user_name;
-//   res.redirect('/');
-// });
-//
+router.post('/login', function(req, res, next) {
+  req.session.user = req.body.user_name;
+  res.redirect('/');
+});
+
 
 router.post('/signup', function(req, res, next) {
   var user = req.body.user.trim(),
@@ -31,10 +31,10 @@ router.post('/signup', function(req, res, next) {
         password: hash,
         bets: []
       });
-      // req.session.user = req.body.user;
-      // req.session.email = req.body.email;
-      res.cookie('user', user );
-      res.cookie('email', email );
+      req.session.user = req.body.user;
+      req.session.email = req.body.email;
+      // res.cookie('user', user);
+      // res.cookie('email', email);
       res.redirect('/bets/index');
     };
   });

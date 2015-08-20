@@ -4,13 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cookieSession = require('cookie-session');
 
 require('dotenv').load()
 
 var routes = require('./routes/index');
+var auth = require('./routes/auth');
 var users = require('./routes/users');
 var bets = require('./routes/bets');
-var auth = require('./routes/auth');
 
 var app = express();
 
@@ -25,26 +26,31 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieSession({
+  name: 'session',
+  keys: [process.env.KEY1, process.env.KEY2]
+}));
 
-// app.use(cookieSession({
-//   name: 'session',
-//   keys: [process.env.KEY1, process.env.KEY2]
-// }));
+var setUserLocal = function (req, res, next) {
+  res.locals.user = req.session.user;
+  // res.locals.currentUser = req.session.user
+  next();
+};
 
-// var setUserNameLocal = function (req, res, next) {
-//   res.locals.currentUser = req.session.user
-//   next()
-// }
-//
-// app.use(setUserNameLocal)
-
-
-
-
+app.use(setUserLocal)
 app.use('/', routes);
-app.use('/users', users);
-app.use('/bets', bets);
 app.use('/', auth);
+app.use('/users', users);
+
+app.use (function(req, res, next) {
+  if(req.session.user) {
+    next()
+  } else {
+    res.redirect('/index')
+  };
+});
+
+app.use('/bets', bets);
 
 
 // catch 404 and forward to error handler
