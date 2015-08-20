@@ -2,7 +2,29 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
   
-  a(href='bets/index')
-    button Sign In
+  h2 Log In
+  form(action='bets/index')
+    label(for='email') Email
+    input(type='text' id='email' name='email')
+    p
+    label(for='password') Password
+    input(type='password' id='password' name='password')
+    p
+    input(type='submit' value='Log In')
+    p
+  h2 Sign Up
+  form(action='bets/signup' method='post')
+    label(for='user') Username
+    input(type='text' id='user' name='user')
+    p
+    label(for='email') Email
+    input(type='text' id='email' name='email')
+    p
+    label(for='password') Password
+    input(type='password' id='password' name='password')
+    p
+    label(for='confirm') Confirm Password
+    input(type='password' id='confirm' name='confirm')
+    p
+    input(type='submit' value='Sign Up')

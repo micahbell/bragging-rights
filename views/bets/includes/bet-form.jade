@@ -1,6 +1,15 @@
-label(for='bet') Bet
-input(type='text' id='bet' name='bet' value=(bet ? bet.name: ''))
-
-
-label(for='description') Description
+label(for='name') Name 
+input(type='text' id='name' name='name' value=(bet ? bet.name: ''))
+p
+label(for='description') Description   
 input(type='text' id='description' name='description' value=(bet ? bet.description: ''))
+p
+label(for='start-time') Start Time 
+input(type='text' id='start-time' name='start_time' value=(bet ? bet.startTime: ''))
+p
+label(for='end-time') End Time 
+input(type='text' id='end-time' name='end_time' value=(bet ? bet.endTime: ''))
+p
+label(for='participants') Participants 
+input(type='text' id='participants' name='participants' value=(bet ? bet.participants: ''))
+p

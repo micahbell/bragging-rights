@@ -1,13 +1,32 @@
 var express = require('express');
 var router = express.Router();
 var db = require('monk')(process.env.MONGOLAB_URI);
+var users = db.get('users');
 var bets = db.get('bets');
+var val = require('../lib/validations.js');
+var bcrypt = require('bcrypt');
 
 router.get('/index', function(req, res, next) {
   bets.find({}).then(function(bets) {
     res.render('bets/index', { bets: bets });
   })
 })
+
+router.post('/signup', function(req, res, next) {
+  var user = req.body.user.trim(),
+  email = req.body.email.toLowerCase().trim(),
+  password = req.body.password.trim(),
+  confirm = req.body.confirm.trim(),
+  salt = bcrypt.genSaltSync(10),
+  hash = bcrypt.hashSync(password, salt);
+
+  val.existingUser(email).then(function() {
+
+  })
+  val.signUpValidation(user, email, password, confirm) {
+
+  };
+});
 
 router.get('/new', function(req, res, next) {
   res.render('bets/new');
