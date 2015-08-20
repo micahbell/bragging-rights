@@ -14,12 +14,16 @@ block content
     input(type='submit' value='Log In')
     p
   h2 Sign Up
-  form(action='bets/signup' method='post')
+  
+  if validationErrors
+    h4= validationErrors
+    
+  form(action='/signup' method='post')
     label(for='user') Username
     input(type='text' id='user' name='user')
     p
     label(for='email') Email
-    input(type='text' id='email' name='email')
+    input(type='email' id='email' name='email')
     p
     label(for='password') Password
     input(type='password' id='password' name='password')

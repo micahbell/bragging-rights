@@ -12,22 +12,6 @@ router.get('/index', function(req, res, next) {
   })
 })
 
-router.post('/signup', function(req, res, next) {
-  var user = req.body.user.trim(),
-  email = req.body.email.toLowerCase().trim(),
-  password = req.body.password.trim(),
-  confirm = req.body.confirm.trim(),
-  salt = bcrypt.genSaltSync(10),
-  hash = bcrypt.hashSync(password, salt);
-
-  val.existingUser(email).then(function() {
-
-  })
-  val.signUpValidation(user, email, password, confirm) {
-
-  };
-});
-
 router.get('/new', function(req, res, next) {
   res.render('bets/new');
 });
