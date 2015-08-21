@@ -7,10 +7,23 @@ var val = require('../lib/validations.js');
 var bcrypt = require('bcrypt');
 
 router.post('/login', function(req, res, next) {
-  req.session.user = req.body.user_name;
-  res.redirect('/');
+  var email = req.body.email.toLowerCase().trim(),
+  password = req.body.password.trim();
+  users.findOne({ email: email }).then(function(user) {
+    if(!user) {
+      res.render('index', { loginError: 'There is no account associated with the email address. Please create an account.'});
+    } else {
+      var compare = bcrypt.compareSync(password, user.password);
+      if(!compare) {
+        res.render('index', { loginError: 'Invalid password.' });
+      } else {
+        req.session.user = req.body.user;
+        req.session.email = req.body.email;
+        res.redirect('/bets/index');
+      };
+    };
+  });
 });
-
 
 router.post('/signup', function(req, res, next) {
   var user = req.body.user.trim(),
@@ -19,7 +32,6 @@ router.post('/signup', function(req, res, next) {
   confirm = req.body.confirm.trim(),
   salt = bcrypt.genSaltSync(10),
   hash = bcrypt.hashSync(password, salt);
-
   val.existingUser(email, function(duplicate) {
     var validationErrors = val.signUpValidation(user, email, password, confirm, duplicate);
     if(validationErrors != 0) {
@@ -33,8 +45,6 @@ router.post('/signup', function(req, res, next) {
       });
       req.session.user = req.body.user;
       req.session.email = req.body.email;
-      // res.cookie('user', user);
-      // res.cookie('email', email);
       res.redirect('/bets/index');
     };
   });
@@ -44,9 +54,6 @@ router.get('/logout', function(req, res, next) {
   req.session = null;
   res.redirect('/');
 });
-
-
-
 
 
 
