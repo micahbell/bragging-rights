@@ -1,15 +1,15 @@
 label(for='name') Name 
-input(type='text' id='name' name='name' value=(bet ? bet.name: ''))
+input(type='text' id='name' name='name' autocomplete='off' value=(bet ? bet.name: ''))
 p
 label(for='description') Description   
-input(type='text' id='description' name='description' value=(bet ? bet.description: ''))
+input(type='text' id='description' name='description' autocomplete='off' value=(bet ? bet.description: ''))
 p
 label(for='start-time') Start Time 
-input(type='text' id='start-time' name='start_time' value=(bet ? bet.startTime: ''))
+input(type='date' id='start-time' name='start_time' value=(bet ? bet.startTime: ''))
 p
 label(for='end-time') End Time 
-input(type='text' id='end-time' name='end_time' value=(bet ? bet.endTime: ''))
+input(type='date' id='end-time' name='end_time' value=(bet ? bet.endTime: ''))
 p
-label(for='participants') Participants 
-input(type='text' id='participants' name='participants' value=(bet ? bet.participants: ''))
+label(for='participants') Invite Participants 
+input(type='text' id='participants' name='participants' autocomplete='off' value=(bet ? bet.participants: ''))
 p

@@ -1,11 +1,13 @@
 extends ../layout
 
 block content
-  h1 Showing One
+  h1= bet.name
   
   if bet
-    h4= bet.name
     h4= bet.description
+    h4= bet.start
+    h4= bet.end
+    h4= bet.participants
     
   a(href='/bets/index') Back to All Bets
     

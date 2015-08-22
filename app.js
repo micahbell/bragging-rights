@@ -33,7 +33,6 @@ app.use(cookieSession({
 
 var setUserLocal = function (req, res, next) {
   res.locals.user = req.session.user;
-  // res.locals.currentUser = req.session.user
   next();
 };
 

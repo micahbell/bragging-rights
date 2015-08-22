@@ -7,17 +7,40 @@ var val = require('../lib/validations.js');
 var bcrypt = require('bcrypt');
 
 router.get('/index', function(req, res, next) {
-  bets.find({}).then(function(bets) {
-    res.render('bets/index', { bets: bets });
-  })
-})
+  var email = req.session.email;
+  users.findOne({ email: email }).then(function(user) {
+    bets.find({ _id: { $in: user.betIds }}).then(function(bets) {
+      console.log(bets);
+      res.render('bets/index', { bets: bets });
+    });
+  });
+});
 
 router.get('/new', function(req, res, next) {
   res.render('bets/new');
 });
 
+router.get('/invites', function(req, res, next) {
+  res.render('bets/invites');
+});
+
 router.post('/create', function(req, res, next) {
-  bets.insert({ name: req.body.bet, description: req.body.description });
+  var email = req.session.email;
+  bets.insert({
+    name: req.body.name,
+    description: req.body.description,
+    start: req.body.start_time,
+    end: req.body.end_time,
+    owner: email,
+    participants: [],
+    winners: [],
+    losers: []
+  }).then(function(bet) {
+    users.update({ email: email },
+      { $push:
+        { betIds: bet._id }
+      })
+    });
   res.redirect('/bets/index');
 });
 
@@ -50,6 +73,21 @@ router.post('/:id/delete', function(req, res, next) {
 
 
 
+
+// users.update({ email: email },
+//   { $push:
+//     { bets: {
+//         name: req.body.name,
+//         description: req.body.description,
+//         start: req.body.start_time,
+//         end: req.body.end_time,
+//         owner: email,
+//         participants: [],
+//         winners: [],
+//         losers: []
+//       }
+//     }
+//   });
 
 
 module.exports = router;

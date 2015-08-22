@@ -10,7 +10,10 @@ block content
     
   form(action='/login' method='post')
     label(for='email') Email
-    input(type='email' id='email' name='email')
+    if loginError
+      input(type='email' id='email' name='email' autocomplete='off' value=email)
+    else
+      input(type='email' id='email' autocomplete='off' name='email')
     p
     label(for='password') Password
     input(type='password' id='password' name='password')
@@ -22,14 +25,21 @@ block content
   h2 Sign Up
   
   if validationErrors
-    h4= validationErrors
+    for error in validationErrors
+      p= error
     
   form(action='/signup' method='post')
     label(for='user') Username
-    input(type='text' id='user' name='user')
+    if validationErrors
+      input(type='text' id='user' name='user' autocomplete='off' value=user)
+    else
+      input(type='text' id='user' autocomplete='off' name='user')
     p
     label(for='email') Email
-    input(type='email' id='email' name='email')
+    if validationErrors
+      input(type='email' id='email' name='email' autocomplete='off' value=email)
+    else
+      input(type='email' id='email' autocomplete='off' name='email')
     p
     label(for='password') Password
     input(type='password' id='password' name='password')

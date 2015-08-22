@@ -11,7 +11,7 @@ router.post('/login', function(req, res, next) {
   password = req.body.password.trim();
   users.findOne({ email: email }).then(function(user) {
     if(!user) {
-      res.render('index', { loginError: 'There is no account associated with the email address. Please create an account.'});
+      res.render('index', { loginError: 'There is no account associated with the email address. Please create an account.', email: email });
     } else {
       var compare = bcrypt.compareSync(password, user.password);
       if(!compare) {
@@ -41,7 +41,7 @@ router.post('/signup', function(req, res, next) {
         user: user,
         email: email,
         password: hash,
-        bets: []
+        betIds: []
       });
       req.session.user = req.body.user;
       req.session.email = req.body.email;
