@@ -11,7 +11,6 @@ bcrypt = require('bcrypt');
 router.get('/index', function(req, res, next) {
   var email = req.session.email;
   users.findOne({ email: email }).then(function(user) {
-    console.log(typeof user.betids[0]);
     bets.find({ _id: { $in: user.betIds }}).then(function(bets) {
       res.render('bets/index', { bets: bets });
     });
@@ -72,7 +71,11 @@ router.get('/:id/add-people', function(req, res, next) {
 
 router.post('/:id/add-people', function(req, res, next) {
   var peopleObject = req.body;
-  dbFunctions.addPeople(peopleObject, req.params.id);
+  // console.log('----------Params--------', req.params.id);
+  var betId = bets.id(req.params.id);
+  // console.log('--------------------', betId);
+  dbFunctions.addPeople(peopleObject, betId);
+  // dbFunctions.addPeople(peopleObject, req.params.id);
   res.redirect('/bets/index');
 });
 

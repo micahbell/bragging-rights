@@ -9,6 +9,8 @@ block content
         h3= bet.name
       form(action='/bets/' + bet._id + '/add-people' method='get')
         button Add Participants
+      p
+      hr
   p
   form(action='/bets/new' method='get')
     button Add New
