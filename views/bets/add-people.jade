@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+  h1 Add Participants to Your Bet
+  
+  h2 Enter email, press add
+  
+  if bet  
+    h4= bet
+  
+  form(action='/bets/' + bet + '/add-people' method='post')
+    input(type='text' class='person' name='person_1')
+    p
+    input(type='text' class='person' name='person_2')
+    p
+    button(type='submit') Add Participants
+    
+  
+    
+  

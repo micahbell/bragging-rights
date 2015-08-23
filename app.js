@@ -41,13 +41,13 @@ app.use('/', routes);
 app.use('/', auth);
 app.use('/users', users);
 
-// app.use (function(req, res, next) {
-//   if(req.session.user) {
-//     next();
-//   } else {
-//     res.redirect('/');
-//   };
-// });
+app.use(function(req, res, next) {
+  if(req.session) {
+    next();
+  } else {
+    res.redirect('/');
+  };
+});
 
 app.use('/bets', bets);
 

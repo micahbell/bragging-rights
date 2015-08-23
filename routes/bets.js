@@ -1,16 +1,18 @@
-var express = require('express');
-var router = express.Router();
-var db = require('monk')(process.env.MONGOLAB_URI);
-var users = db.get('users');
-var bets = db.get('bets');
-var val = require('../lib/validations.js');
-var bcrypt = require('bcrypt');
+var express = require('express'),
+router = express.Router(),
+db = require('monk')(process.env.MONGOLAB_URI),
+users = db.get('users'),
+bets = db.get('bets'),
+val = require('../lib/validations.js'),
+dbFunctions = require('../lib/database.js'),
+bcrypt = require('bcrypt');
+
 
 router.get('/index', function(req, res, next) {
   var email = req.session.email;
   users.findOne({ email: email }).then(function(user) {
+    console.log(typeof user.betids[0]);
     bets.find({ _id: { $in: user.betIds }}).then(function(bets) {
-      console.log(bets);
       res.render('bets/index', { bets: bets });
     });
   });
@@ -18,10 +20,6 @@ router.get('/index', function(req, res, next) {
 
 router.get('/new', function(req, res, next) {
   res.render('bets/new');
-});
-
-router.get('/invites', function(req, res, next) {
-  res.render('bets/invites');
 });
 
 router.post('/create', function(req, res, next) {
@@ -57,11 +55,25 @@ router.get('/:id/edit', function(req, res, next) {
 });
 
 router.post('/:id/update', function(req, res, next)  {
-  bets.update({ _id: req.params.id }, {
-    name: req.body.bet,
-    description: req.body.description
-  });
+  bets.update({ _id: req.params.id },
+    {
+      name: req.body.name,
+      description: req.body.description,
+      start: req.body.start_time,
+      end: req.body.end_time,
+      participants: []
+    })
   res.redirect('/bets/' + req.params.id);
+});
+
+router.get('/:id/add-people', function(req, res, next) {
+  res.render('bets/add-people', { bet: req.params.id });
+});
+
+router.post('/:id/add-people', function(req, res, next) {
+  var peopleObject = req.body;
+  dbFunctions.addPeople(peopleObject, req.params.id);
+  res.redirect('/bets/index');
 });
 
 router.post('/:id/delete', function(req, res, next) {
@@ -71,23 +83,6 @@ router.post('/:id/delete', function(req, res, next) {
 
 
 
-
-
-
-// users.update({ email: email },
-//   { $push:
-//     { bets: {
-//         name: req.body.name,
-//         description: req.body.description,
-//         start: req.body.start_time,
-//         end: req.body.end_time,
-//         owner: email,
-//         participants: [],
-//         winners: [],
-//         losers: []
-//       }
-//     }
-//   });
 
 
 module.exports = router;

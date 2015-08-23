@@ -2,17 +2,21 @@ extends ../layout
 
 block content
   h1 Bets Index Page
-  
+  h2 Create a new bet, then invite participants
   if bets
     for bet in bets 
       a(href='/bets/' + bet._id)
         h3= bet.name
-  
-  form(action='/bets/invites' method='get')
-    button See Your Invitations
+      form(action='/bets/' + bet._id + '/add-people' method='get')
+        button Add Participants
   p
   form(action='/bets/new' method='get')
     button Add New
   p
   form(action='/logout' method='get')
     button Logout
+
+    //click add participants
+    //post that searches users for matching email
+    //pushes bet id into their Bets
+    //also need it to push email into bet participants?
