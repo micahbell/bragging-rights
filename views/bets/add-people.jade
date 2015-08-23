@@ -5,9 +5,6 @@ block content
   
   h2 Enter email, press add
   
-  if bet  
-    h4= bet
-  
   form(action='/bets/' + bet + '/add-people' method='post')
     input(type='text' class='person' name='person_1')
     p

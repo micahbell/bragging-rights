@@ -3,6 +3,7 @@ extends ../layout
 block content
   h1 Bets Index Page
   h2 Create a new bet, then invite participants
+  
   if bets
     for bet in bets 
       a(href='/bets/' + bet._id)
@@ -17,8 +18,3 @@ block content
   p
   form(action='/logout' method='get')
     button Logout
-
-    //click add participants
-    //post that searches users for matching email
-    //pushes bet id into their Bets
-    //also need it to push email into bet participants?

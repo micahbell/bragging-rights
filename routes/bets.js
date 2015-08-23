@@ -60,7 +60,9 @@ router.post('/:id/update', function(req, res, next)  {
       description: req.body.description,
       start: req.body.start_time,
       end: req.body.end_time,
-      participants: []
+      participants: [],
+      winners: [],
+      losers: []
     })
   res.redirect('/bets/' + req.params.id);
 });
@@ -70,12 +72,11 @@ router.get('/:id/add-people', function(req, res, next) {
 });
 
 router.post('/:id/add-people', function(req, res, next) {
-  var peopleObject = req.body;
-  // console.log('----------Params--------', req.params.id);
-  var betId = bets.id(req.params.id);
-  // console.log('--------------------', betId);
-  dbFunctions.addPeople(peopleObject, betId);
-  // dbFunctions.addPeople(peopleObject, req.params.id);
+  var peopleObject = req.body,
+  betId = bets.id(req.params.id),
+  peopleArray = dbFunctions.addPeople(peopleObject, betId);
+
+  dbFunctions.pushParticipants(peopleArray, betId);
   res.redirect('/bets/index');
 });
 
