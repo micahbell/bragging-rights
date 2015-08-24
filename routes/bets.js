@@ -34,9 +34,7 @@ router.post('/create', function(req, res, next) {
     losers: []
   }).then(function(bet) {
     users.update({ email: email },
-      { $push:
-        { betIds: bet._id }
-      })
+      { $push: { betIds: bet._id }});
     });
   res.redirect('/bets/index');
 });
