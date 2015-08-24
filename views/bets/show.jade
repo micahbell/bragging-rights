@@ -4,11 +4,18 @@ block content
   h1= bet.name
   
   if bet
-    h4= bet.description
-    h4= bet.start
-    h4= bet.end
-    h4= bet.participants
+    p= bet.description
+    p Start Date: #{bet.start}
+    p End Date: #{bet.end}
+    p Participants: #{bet.participants}
     
+    label(for='winner') Winner 
+    select(id='winner' name='winner')        
+      option(disabled selected) Choose Winner
+      if bet.participants
+        for val in bet.participants
+          option= val
+  p  
   a(href='/bets/index') Back to All Bets
   p
   form(action='/bets/' + bet._id + '/edit' method='get')

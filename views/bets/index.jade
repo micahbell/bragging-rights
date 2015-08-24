@@ -1,11 +1,12 @@
 extends ../layout
 
 block content
-  h1 Bets Index Page
+  h1 Bets
   h2 Create a new bet, then invite participants
   
   if bets
-    for bet in bets 
+    for bet in bets
+      hr
       a(href='/bets/' + bet._id)
         h3= bet.name
       form(action='/bets/' + bet._id + '/add-people' method='get')

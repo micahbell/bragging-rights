@@ -58,7 +58,6 @@ router.post('/:id/update', function(req, res, next)  {
       description: req.body.description,
       start: req.body.start_time,
       end: req.body.end_time,
-      participants: [],
       winners: [],
       losers: []
     })
@@ -71,9 +70,9 @@ router.get('/:id/add-people', function(req, res, next) {
 
 router.post('/:id/add-people', function(req, res, next) {
   var peopleObject = req.body,
-  betId = bets.id(req.params.id),
-  peopleArray = dbFunctions.addPeople(peopleObject, betId);
+  betId = bets.id(req.params.id);
 
+  var peopleArray = dbFunctions.addPeople(peopleObject, betId);
   dbFunctions.pushParticipants(peopleArray, betId);
   res.redirect('/bets/index');
 });
