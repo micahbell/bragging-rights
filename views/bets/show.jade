@@ -6,8 +6,10 @@ block content
   if bet
     p= bet.description
     p Start Date: #{bet.start}
-    p End Date: #{bet.end}
-    p Participants: #{bet.participants}
+    p End Date: #{bet.end}  
+    p Participants:
+      for val in bet.participants
+        p= val
     
     label(for='winner') Winner 
     select(id='winner' name='winner')        
@@ -15,6 +17,10 @@ block content
       if bet.participants
         for val in bet.participants
           option= val
+          
+    button Submit Winner
+  
+
   p  
   a(href='/bets/index') Back to All Bets
   p

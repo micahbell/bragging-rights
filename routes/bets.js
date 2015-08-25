@@ -7,7 +7,6 @@ val = require('../lib/validations.js'),
 dbFunctions = require('../lib/database.js'),
 bcrypt = require('bcrypt');
 
-
 router.get('/index', function(req, res, next) {
   var email = req.session.email;
   users.findOne({ email: email }).then(function(user) {
@@ -22,14 +21,15 @@ router.get('/new', function(req, res, next) {
 });
 
 router.post('/create', function(req, res, next) {
-  var email = req.session.email;
+  var email = req.session.email,
+  user = req.session.user;
   bets.insert({
     name: req.body.name,
     description: req.body.description,
     start: req.body.start_time,
     end: req.body.end_time,
     owner: email,
-    participants: [],
+    participants: [user],
     winners: [],
     losers: []
   }).then(function(bet) {
@@ -70,8 +70,7 @@ router.get('/:id/add-people', function(req, res, next) {
 
 router.post('/:id/add-people', function(req, res, next) {
   var peopleObject = req.body,
-  betId = bets.id(req.params.id);
-
+  betId = bets.id(req.params.id); //Turns string back to ObjectId
   var peopleArray = dbFunctions.addPeople(peopleObject, betId);
   dbFunctions.pushParticipants(peopleArray, betId);
   res.redirect('/bets/index');

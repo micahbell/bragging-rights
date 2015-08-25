@@ -17,7 +17,7 @@ router.post('/login', function(req, res, next) {
       if(!compare) {
         res.render('index', { loginError: 'Invalid password.' });
       } else {
-        req.session.user = req.body.user;
+        req.session.user = user.user;
         req.session.email = req.body.email;
         res.redirect('/bets/index');
       };
